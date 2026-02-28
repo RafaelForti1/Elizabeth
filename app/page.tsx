@@ -114,7 +114,7 @@ export default function Home() {
         <div className="space-y-1">
           <p className="font-body text-sm text-warm font-light">Um presente de: <span className="font-medium">Rafa e Iza</span></p>
           <p className="font-body text-[10px] text-mauve/40 mt-6 tracking-wide">
-            Desenvolvido com <span className="text-rose">♥</span> por <a href="#" className="hover:text-rose transition-colors">Rafael Forti</a>
+            Desenvolvido com <span className="text-rose">♥</span> por <a href="https://rafaelforti.vercel.app" className="hover:text-rose transition-colors">Rafael Forti</a>
           </p>
         </div>
       </footer>
