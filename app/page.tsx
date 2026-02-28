@@ -107,9 +107,16 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="text-center py-12 border-t border-blush/30">
-        <p className="font-display text-2xl text-rose italic">feito com amor ♡</p>
-        <p className="font-body text-xs text-mauve/50 mt-2 tracking-widest">para durar para sempre</p>
+      <footer className="text-center py-16 border-t border-blush/30 bg-warm/5">
+        <p className="font-display text-2xl text-rose italic mb-2">feito com amor ♡</p>
+        <p className="font-body text-xs text-mauve/60 tracking-widest uppercase mb-4">para durar para sempre</p>
+
+        <div className="space-y-1">
+          <p className="font-body text-sm text-warm font-light">Um presente de: <span className="font-medium">Rafa e Iza</span></p>
+          <p className="font-body text-[10px] text-mauve/40 mt-6 tracking-wide">
+            Desenvolvido com <span className="text-rose">♥</span> por <a href="#" className="hover:text-rose transition-colors">Rafael Forti</a>
+          </p>
+        </div>
       </footer>
     </main>
   )
