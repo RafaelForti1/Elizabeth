@@ -17,6 +17,10 @@ export default function MessageBoard({ messages, onNewMessage }: Props) {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Revelar mensagens apenas em 03/03/2026
+  const revealDate = new Date('2026-03-03T00:00:00')
+  const isRevealed = new Date() >= revealDate
+
   async function handleSubmit() {
     if (!name.trim() || !content.trim()) return
     setSending(true)
@@ -42,7 +46,7 @@ export default function MessageBoard({ messages, onNewMessage }: Props) {
   return (
     <div className="space-y-12">
       {/* Form */}
-      <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-blush/50 shadow-sm">
+      <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-blush/50 shadow-sm transition-all duration-500 hover:shadow-md">
         <h3 className="font-display text-2xl font-light text-warm mb-6">Deixe sua mensagem ♡</h3>
         <div className="space-y-4">
           <input
@@ -66,7 +70,7 @@ export default function MessageBoard({ messages, onNewMessage }: Props) {
             <button
               onClick={handleSubmit}
               disabled={sending || !name.trim() || !content.trim()}
-              className="px-8 py-3 rounded-2xl bg-warm text-cream font-body text-sm tracking-widest hover:bg-rose transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-8 py-3 rounded-2xl bg-warm text-cream font-body text-sm tracking-widest hover:bg-rose transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-sm active:scale-95 transition-transform"
             >
               {sending ? 'Enviando...' : 'Enviar com amor ✦'}
             </button>
@@ -81,25 +85,39 @@ export default function MessageBoard({ messages, onNewMessage }: Props) {
         {error && <p className="mt-4 font-body text-sm text-red-400">{error}</p>}
       </div>
 
+      {/* Locked message if not yet 03/03 */}
+      {!isRevealed && messages.length > 0 && (
+        <div className="bg-rose/10 border border-rose/20 rounded-3xl p-6 text-center animate-pulse">
+          <p className="font-display text-lg text-mauve italic">
+            🔒 {messages.length} mensagens carinhosas guardadas...
+          </p>
+          <p className="font-body text-xs text-rose mt-1 tracking-widest uppercase">
+            Serão reveladas apenas no dia 03/03
+          </p>
+        </div>
+      )}
+
       {/* Messages list */}
       {messages.length > 0 && (
         <div className="space-y-4">
           {messages.map((msg, i) => (
             <div
               key={msg.id}
-              className="bg-white/40 backdrop-blur-sm rounded-3xl p-6 border border-blush/30 hover:border-rose/30 transition-colors"
+              className={`bg-white/40 backdrop-blur-sm rounded-3xl p-6 border border-blush/30 transition-all duration-500 ${!isRevealed ? 'grayscale opacity-60 scale-95 blur-[2px]' : 'hover:border-rose/30'}`}
               style={{ animationDelay: `${i * 80}ms` }}
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blush to-rose flex items-center justify-center text-cream font-display text-sm font-light">
-                      {msg.author_name.charAt(0).toUpperCase()}
+                      {isRevealed ? msg.author_name.charAt(0).toUpperCase() : '?'}
                     </div>
-                    <span className="font-body font-medium text-warm text-sm">{msg.author_name}</span>
+                    <span className="font-body font-medium text-warm text-sm">
+                      {isRevealed ? msg.author_name : 'Alguém especial'}
+                    </span>
                   </div>
                   <p className="font-display text-lg font-light text-warm/80 italic leading-relaxed">
-                    "{msg.content}"
+                    {isRevealed ? `"${msg.content}"` : '"Uma mensagem de amor protegida..."'}
                   </p>
                 </div>
               </div>
